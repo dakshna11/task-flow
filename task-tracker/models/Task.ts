@@ -20,6 +20,11 @@ const taskSchema = new mongoose.Schema({
         enum: ['low', 'medium', 'high'],
         default: 'medium'
     },
+    role: {
+        type: String,
+        enum: ['admin', 'user'],
+        default: 'user'
+    },
     comments: [commentSchema],
     createdBy: { type: String, required: true },
 }, { timestamps: true });

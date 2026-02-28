@@ -7,7 +7,7 @@ type Role = 'admin' | 'user';
 const AuthContext = createContext<{role: Role}>({role: 'user'});
 
 export function AuthProvider({ children }: {children: React.ReactNode}){
-    const role: Role = 'user';
+    const role: Role = 'admin';
 
     return(
         <AuthContext.Provider value={{role}}>
