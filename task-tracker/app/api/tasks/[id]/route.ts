@@ -4,11 +4,18 @@ import Task from "@/models/Task";
 import { getCurrentUser } from "@/lib/getCurrentUser";
 
 export async function PATCH(request: Request, context: { params: Promise<{ id: string }> }) {
+  type CurrentUser = {
+    role?: string;
+    email?: string | null;
+    name?: string | null;
+    id?: string;
+  };
+
   try {
     await connectToDatabase();
     const body = await request.json();
     const {id} = await context.params;
-    const user = await getCurrentUser();
+    const user = await getCurrentUser() as CurrentUser;
 
     if(body.assignedTo && user.role !== "admin") {
         return NextResponse.json({ message: "Forbidden" }, { status: 403 });
