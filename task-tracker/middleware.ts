@@ -11,6 +11,10 @@ export default withAuth(
                     return token?.role === 'admin';
                 }
 
+                if (path.startsWith("/login") || path.startsWith("/signup") || path.startsWith("/api/auth")) {
+                    return true;
+                }
+
                 return !!token;
             }
         }
