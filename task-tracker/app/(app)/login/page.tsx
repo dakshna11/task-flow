@@ -1,12 +1,13 @@
 "use client";
 
 import { signIn } from 'next-auth/react';
-import Router from 'next/router';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 export default function Login(){
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('')
+    const router = useRouter();
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -18,7 +19,7 @@ export default function Login(){
 
        if(!res?.error){
         console.log("Login successful");
-        Router.push('/dashboard');
+        router.push('/dashboard');
        }
     }
 
