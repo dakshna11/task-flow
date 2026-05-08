@@ -1,8 +1,8 @@
 import type { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { connectToDatabase } from "./mongodb";
-import Task from "@/models/Task";
 import bcrypt from "bcryptjs";
+import User from "@/models/User";
 
 export const authOptions: NextAuthOptions = {
     session: {
@@ -17,7 +17,7 @@ export const authOptions: NextAuthOptions = {
             },
             async authorize(credentials) {
                 await connectToDatabase();
-                const user = await Task.findOne({ email: credentials?.email });
+                const user = await User.findOne({ email: credentials?.email });
                 if(!user) {
                     throw new Error("No user found with the email");
                 }
