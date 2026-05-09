@@ -39,9 +39,17 @@ export default function TaskList({tasks}: {tasks: any[]}) {
         );
     }
 
+    const deleteTask = async (id: string) => {
+        console.log("Deleting task with ID:", id);
+        await fetch(`/api/tasks/${id}`, {
+            method: 'DELETE',
+        });
+        setTaskList(prevTasks => prevTasks.filter(task => task._id !== id));
+    }
+
     return(
         <div>
-            {taskList.map((task) => (
+            {taskList.length > 0 ? taskList?.map((task) => (
                 <div key={task._id} style={{border: '1px solid #ccc', padding: '10', marginBottom: '10'}}>
                     <h3>{task.title}</h3>
                     <p>Status:</p>
@@ -63,8 +71,11 @@ export default function TaskList({tasks}: {tasks: any[]}) {
                             />) : (
                             <span>{task.assignee}</span>
                         )}
+                    <button onClick={() => deleteTask(task._id)} >
+                        Delete
+                    </button>
                 </div>
-            ))}
+            )) : <p>No tasks found.</p>}
         </div>
     )
 }

@@ -16,6 +16,7 @@ export async function PATCH(request: Request, context: { params: Promise<{ id: s
     const body = await request.json();
     const {id} = await context.params;
     const user = await getCurrentUser() as CurrentUser;
+    console.log("Current user:", user);
 
     if(body.assignedTo && user.role !== "admin") {
         return NextResponse.json({ message: "Forbidden" }, { status: 403 });
@@ -43,5 +44,38 @@ export async function PATCH(request: Request, context: { params: Promise<{ id: s
   } catch (error) {
     console.error("Error updating task:", error);
     return NextResponse.json({ error: "Failed to update task" }, { status: 500 });
+  }
+}
+
+export async function DELETE(
+  req: Request,
+  context: { params: Promise<{ id: string }> }
+) {
+  try {
+    await connectToDatabase();
+    const {id} = await context.params;
+
+    const task = await Task.findOneAndDelete({
+      _id: id,
+    });
+
+    if (!task) {
+      return NextResponse.json(
+        { message: "Task not found" },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json({
+      message: "Task deleted successfully",
+    });
+
+  } catch (error) {
+    console.log(error);
+
+    return NextResponse.json(
+      { message: "Internal server error" },
+      { status: 500 }
+    );
   }
 }

@@ -1,5 +1,7 @@
 'use client';
 
+import { getServerSession } from 'next-auth';
+import { useSession } from 'next-auth/react';
 import { useState } from 'react';
 
 export default function CreateTaskPage() {
@@ -7,14 +9,16 @@ export default function CreateTaskPage() {
     const [description, setDescription] = useState('');
     const [assignee, setAssignee] = useState('');
     const [priority, setPriority] = useState('medium');
-    
+    const session = useSession();
+    const userId = (session.data?.user as { id?: string })?.id;
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
         const res = await fetch('/api/tasks', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ title, description, assignee, priority })
+            body: JSON.stringify({ title, description, assignee, priority, userId })
         })
 
         if(res.ok) {

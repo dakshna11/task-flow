@@ -1,11 +1,13 @@
 import { NextResponse } from "next/server";
 import { connectToDatabase } from "@/lib/mongodb";
 import Task from "@/models/Task";
+import { getCurrentUser } from "@/lib/getCurrentUser";
 
 export async function GET() {
+  const session: any = await getCurrentUser();
   try {
     await connectToDatabase();
-    const tasks = await Task.find({});
+    const tasks = await Task.find({userId: session?.id,});
     return NextResponse.json(tasks);
   } catch (error) {
     console.error("Error fetching tasks:", error);
@@ -20,6 +22,7 @@ export async function POST(request: Request) {
         const body = await request.json();
         const newTask = await Task.create({
             title: body.title,
+            userId: body.userId,
             description: body.description,
             assignee: body.assignee,
             priority: body.priority,
