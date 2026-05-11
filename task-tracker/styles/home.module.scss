@@ -1,0 +1,40 @@
+.container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 2%;
+}
+.highlight{
+    color: rgb(238, 48, 48);
+    background-color: inherit;
+}
+.description{
+    background-color: rgb(232, 232, 232);
+    color: rgb(4, 4, 4);
+    text-align: center;
+}
+.btnContainer{
+    display: flex;
+    gap: 10px;
+}
+.signUp{
+    color: rgb(79, 173, 240);
+    background-color: transparent;
+    padding: 10px 20px;
+    font-size: 20px;
+    font-weight: 550;
+    border: 2px solid rgb(79, 173, 240);
+    border-radius: 25px;
+    cursor: pointer;
+}
+
+.logIn{
+    color: rgb(13, 11, 11);
+    background-color: transparent;
+    font-size: 20px;
+    font-weight: 550;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
