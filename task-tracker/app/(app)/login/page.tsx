@@ -3,6 +3,7 @@
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import styles from '@/styles/login.module.scss';
 
 export default function Login(){
     const [email, setEmail] = useState('');
@@ -24,9 +25,11 @@ export default function Login(){
     }
 
     return(
-        <div>
-            <form onSubmit={handleLogin}>
-                <h2>Login</h2>
+        <div className={styles.container}>
+            <div className={styles.circle}></div>
+            <h2>Login</h2>
+            <p>Don't have an account? <a href="/signup">Sign up</a></p>
+            <form onSubmit={handleLogin} className={styles.formContainer}>
                 <input 
                 type='email'
                 placeholder='Email'
