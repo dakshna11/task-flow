@@ -8,15 +8,17 @@
 .btnContainer{
     display: flex;
     gap: 10px;
+    margin-right: 20px;
 }
 .signUp{
-    color: rgb(79, 173, 240);
+    color: #5b5cf0;
     background-color: transparent;
-    padding: 10px 20px;
+    padding: 10px 30px;
+    height: 70%;
     font-size: 20px;
     font-weight: 550;
-    border: 2px solid rgb(79, 173, 240);
-    border-radius: 25px;
+    border: 2px solid #5b5cf0;
+    border-radius: 35px;
     cursor: pointer;
 }
 
@@ -25,7 +27,8 @@
     background-color: transparent;
     font-size: 20px;
     font-weight: 550;
-    padding: 10px 20px;
+    padding: 30px;
+    padding-top: 0px;
     border: none;
     border-radius: 5px;
     cursor: pointer;

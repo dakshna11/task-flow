@@ -28,7 +28,7 @@ export default function Login(){
     return(
         <div className={styles.container}>
             <div className={styles.formContainer}>
-                <h2>Login</h2>
+                <h1>Login</h1>
                 <p>Don't have an account? <a href="/signup">Sign up</a></p>
                 <form onSubmit={handleLogin} >
                     <div className={styles.field}>
@@ -54,12 +54,6 @@ export default function Login(){
                     </button>
                 </form>
             </div>
-            <Image
-                src="/login.png"
-                alt="Task Flow dashboard preview"
-                width={1100}
-                height={750}
-            />
         </div>
     )
 }

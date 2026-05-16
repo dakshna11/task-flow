@@ -17,9 +17,14 @@ export default function Home() {
           />
           <h1>Task <span>Flow</span></h1>
         </div>
-        <div>
-
-      </div>
+        <div className={styles.btnContainer}>
+          <button className={styles.signUp} onClick={() => router.push('/signup')}>
+            Sign Up
+          </button>
+          <button className={styles.logIn} onClick={() => router.push('/login')}>
+            Login
+          </button>
+        </div>
       </div>
       <div className={styles.container}>
         <div className={styles.leftPane}>
@@ -88,7 +93,7 @@ export default function Home() {
           <Image
             src="/landing-preview.png"
             alt="Task Flow Dashboard Preview"
-            width={1100}
+            width={1200}
             height={650}
             priority
           />
