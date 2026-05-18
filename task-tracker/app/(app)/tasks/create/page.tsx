@@ -3,30 +3,33 @@
 import { getServerSession } from 'next-auth';
 import { useSession } from 'next-auth/react';
 import { useState } from 'react';
+import styles from '@/styles/createTask.module.scss';
 
 export default function CreateTaskPage() {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
-    const [assignee, setAssignee] = useState('');
+    const [status, setStatus] = useState('');
     const [priority, setPriority] = useState('medium');
+    const [tag, setTag] = useState('');
     const session = useSession();
     const userId = (session.data?.user as { id?: string })?.id;
-
+console.log("dakshna submit",session);
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
         const res = await fetch('/api/tasks', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ title, description, assignee, priority, userId })
+            body: JSON.stringify({ title, description, status, priority, userId, tag })
         })
 
         if(res.ok) {
             alert('Task created successfully!');
             setTitle('');
             setDescription('');
-            setAssignee('');
+            setStatus('');
             setPriority('medium');
+            setTag('');
         } else {
             alert('Error in creating task');
         }
@@ -34,34 +37,94 @@ export default function CreateTaskPage() {
 
     return (
         <div>
-            <h2>Create New Task</h2>
+             <main className={styles.mainContent}>
+                <div className={styles.pageHeader}>
+                    <h1>Create Task</h1>
+                    <p>Organize your workflow efficiently</p>
+                </div>
 
-            <form onSubmit={handleSubmit}>
-                <input
-                    type="text"
-                    placeholder="Title"
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                    required
-                />
-                <textarea
-                    placeholder="Description"
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                />
-                <input
-                    placeholder="Assignee"
-                    value={assignee}
-                    onChange={(e) => setAssignee(e.target.value)}
-                    required
-                />
-                <select value={priority} onChange={(e) => setPriority(e.target.value)}>
-                    <option value="low">Low</option>
-                    <option value="medium">Medium</option>
-                    <option value="high">High</option>
-                </select>
-                <button type="submit">Create Task</button>
-            </form>
+                <div className={styles.taskFormCard}>
+                    <form onSubmit={handleSubmit}>
+                
+                        <div className={styles.formGroup}>
+                        <label>Task Title</label>
+                        <input 
+                            type="text" 
+                            placeholder="Enter task title" 
+                            value={title}
+                            onChange={(e) => setTitle(e.target.value)}
+                        />
+                        </div>
+
+                        <div className={styles.formGroup}>
+                            <label>Description</label>
+                            <textarea 
+                                rows={6} 
+                                placeholder="Add task description..." 
+                                value={description}
+                                onChange={(e) => setDescription(e.target.value)}
+                            />
+                        </div>
+
+                        <div className={styles.gridTwo}>
+                            <div className={styles.formGroup}>
+                                <label>Priority</label>
+
+                                <div className={styles.priorityButtons}>
+                                <button type="button" className={styles.low} onClick={() => setPriority('low')}>
+                                    Low
+                                </button>
+
+                                <button type="button" className={styles.medium} onClick={() => setPriority('medium')}>
+                                    Medium
+                                </button>
+
+                                <button type="button" className={styles.high} onClick={() => setPriority('high')}>
+                                    High
+                                </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className={styles.gridTwo}>
+                        <div className={styles.formGroup}>
+                            <label>Status</label>
+
+                            <select value={status} onChange={(e) => setStatus(e.target.value)}>
+                            <option value="pending">Pending</option>
+                            <option value="inprogress">In Progress</option>
+                            <option value="done">Done</option>
+                            </select>
+                        </div>
+
+                        <div className={styles.formGroup}>
+                            <label>Tags</label>
+
+                            <input 
+                                type="text" 
+                                placeholder="Add tags..." 
+                                value={tag}
+                                onChange={(e) => setTag(e.target.value)}
+                            />
+
+                            <div className={styles.tagsWrapper}>
+                            <span className={styles.tag + ' ' + styles.blue}>Work</span>
+                            <span className={styles.tag + ' ' + styles.green}>Personal</span>
+                            <span className={styles.tag + ' ' + styles.red}>Urgent</span>
+                            </div>
+                        </div>
+                        </div>
+
+                        {/* Actions */}
+                        <div className={styles.formActions}>
+
+                        <button type="submit" className={styles.createBtn}>
+                            Create Task
+                        </button>
+                        </div>
+                    </form>
+                </div>
+            </main>
         </div>
     )
 }

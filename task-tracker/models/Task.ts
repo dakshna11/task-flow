@@ -9,12 +9,12 @@ const commentSchema = new mongoose.Schema({
 const taskSchema = new mongoose.Schema({
     title: { type: String, required: true },
     description: String,
-    assignee: { type: String, required: true },
+    assignee: { type: String },
     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     status: {
         type: String,
-        enum: ['todo', 'inprogress', 'done'],
-        default: 'todo'
+        enum: ['pending', 'inprogress', 'done'],
+        default: 'pending'
     },
     priority: {
         type: String,
@@ -25,6 +25,11 @@ const taskSchema = new mongoose.Schema({
         type: String,
         enum: ['admin', 'user'],
         default: 'user'
+    },
+    tag: {
+        type: String,
+        enum: ['work', 'personal', 'urgent'],
+        default: 'personal'
     },
     comments: [commentSchema],
     createdBy: { type: String, required: true },

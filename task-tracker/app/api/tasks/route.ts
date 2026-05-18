@@ -24,7 +24,8 @@ export async function POST(request: Request) {
             title: body.title,
             userId: body.userId,
             description: body.description,
-            assignee: body.assignee,
+            tag: body.tag,
+            status: body.status,
             priority: body.priority,
             createdBy: 'admin'
         });
