@@ -11,7 +11,7 @@ export default async function Applayout({ children }: { children: React.ReactNod
     return(
         <AuthProvider>
             <div className={styles.container}>
-            <Sidebar />
+            {session && <Sidebar />}
             <main className={styles.main}>{children}</main>
         </div>
         </AuthProvider>
