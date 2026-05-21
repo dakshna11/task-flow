@@ -12,8 +12,8 @@ export default function CreateTaskPage() {
     const [priority, setPriority] = useState('medium');
     const [tag, setTag] = useState('');
     const session = useSession();
-    const userId = (session.data?.user as { id?: string })?.id;
-console.log("dakshna submit",session);
+    const userId = (session?.data?.user as { id?: string })?.id;
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
