@@ -1,6 +1,5 @@
 'use client';
 
-import { getServerSession } from 'next-auth';
 import { useSession } from 'next-auth/react';
 import { useState } from 'react';
 import styles from '@/styles/createTask.module.scss';
@@ -8,9 +7,9 @@ import styles from '@/styles/createTask.module.scss';
 export default function CreateTaskPage() {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
-    const [status, setStatus] = useState('');
+    const [status, setStatus] = useState('pending');
     const [priority, setPriority] = useState('medium');
-    const [tag, setTag] = useState('');
+    const [tag, setTag] = useState('personal');
     const session = useSession();
     const userId = (session?.data?.user as { id?: string })?.id;
 
@@ -90,7 +89,7 @@ export default function CreateTaskPage() {
                         <div className={styles.formGroup}>
                             <label>Status</label>
 
-                            <select value={status} onChange={(e) => setStatus(e.target.value)}>
+                            <select value={status} onChange={(e) => setStatus(e.target.value)} defaultValue="pending">
                             <option value="pending">Pending</option>
                             <option value="inprogress">In Progress</option>
                             <option value="done">Done</option>
@@ -104,7 +103,7 @@ export default function CreateTaskPage() {
                                 type="text" 
                                 placeholder="Add tags..." 
                                 value={tag}
-                                onChange={(e) => setTag(e.target.value)}
+                                onChange={(e) => setTag(e.target.value.toLowerCase())}
                             />
 
                             <div className={styles.tagsWrapper}>

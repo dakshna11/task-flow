@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { connectToDatabase } from "@/lib/mongodb";
 import Task from "@/models/Task";
 import { getCurrentUser } from "@/lib/getCurrentUser";
+import { serializeDocument } from "@/lib/serialize";
 
 export async function PATCH(request: Request, context: { params: Promise<{ id: string }> }) {
   type CurrentUser = {
@@ -40,7 +41,7 @@ export async function PATCH(request: Request, context: { params: Promise<{ id: s
       { new: true }
     );
 
-    return NextResponse.json(updatedTask);
+    return NextResponse.json(serializeDocument(updatedTask));
   } catch (error) {
     console.error("Error updating task:", error);
     return NextResponse.json({ error: "Failed to update task" }, { status: 500 });

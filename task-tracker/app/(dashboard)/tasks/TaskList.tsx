@@ -2,10 +2,12 @@
 
 import { useAuth } from "@/app/context/AuthContext";
 import { useState } from "react";
+import styles from '@/styles/taskList.module.scss';
 
 
 export default function TaskList({tasks}: {tasks: any[]}) {
     const [taskList, setTaskList] = useState(tasks);
+    const [openMenuId, setOpenMenuId] = useState<string | null>(null);
 
     const { role } = useAuth();
     console.log("User role:", role);
@@ -46,35 +48,52 @@ export default function TaskList({tasks}: {tasks: any[]}) {
         });
         setTaskList(prevTasks => prevTasks.filter(task => task._id !== id));
     }
+    console.log("Task list:", taskList);
 
     return(
         <div>
+            { /* <div className={styles.taskTabs}>
+                <button className={styles.active}>All</button>
+                <button>Pending</button>
+                <button>In Progress</button>
+                <button>Completed</button>
+            </div> */}
+            <div className={styles.taskTableHeader}>
+                <p>Task</p>
+                <p>Tags</p>
+                <p>Priority</p>
+                <p>Status</p>
+                <p>Actions</p>
+            </div>
             {taskList.length > 0 ? taskList?.map((task) => (
-                <div key={task._id} style={{border: '1px solid #ccc', padding: '10', marginBottom: '10'}}>
-                    <h3>{task.title}</h3>
-                    <p>Status:</p>
-                    <select 
-                        value={task.status} 
-                        onChange={(e) => updateStatus(task._id, e.target.value)} 
-                        disabled={role !== "admin" && role !== "user"}
-                    >
-                        <option value="todo">To Do</option>
-                        <option value="in-progress">In Progress</option>
-                        <option value="done">Done</option>
-                    </select>
+                <div key={task._id} className={styles.taskListWrapper}>
+                    <div className={styles.taskRow}>
+                        <div className={styles.taskInfo}>
+                        <h4>{task.title}</h4>
+                        <p>{task.description}</p>
+                        </div>
 
-                     <p>Assignee:</p>
-                        {role === 'admin' ? (
-                            <input
-                                defaultValue={task.assignee}
-                                onBlur={e => updateAssignee(task._id, e.target.value)}
-                            />) : (
-                            <span>{task.assignee}</span>
+                        <div className={styles.tags}>
+                        <span className={styles.purple}>{task.tag}</span>
+                        </div>
+
+                        <div className={styles.priority + ' ' + styles.high}>{task.priority}</div>
+
+                        <div className={styles.status + ' ' + styles.progress}>{task.status}</div>
+
+                        <div className={styles.actionWrapper}>
+                        <button type="button" className={styles.actionBtn} onClick={() => setOpenMenuId(openMenuId === task._id ? null : task._id)}>
+                            ⋮
+                        </button>
+
+                        {openMenuId === task._id && (
+                            <div className={styles.actionMenu}>
+                                <button type="button" onClick={() => { deleteTask(task._id); setOpenMenuId(null); }}>Delete</button>
+                            </div>
                         )}
-                    <button onClick={() => deleteTask(task._id)} >
-                        Delete
-                    </button>
-                </div>
+                        </div>
+                    </div>
+            </div>
             )) : <p>No tasks found.</p>}
         </div>
     )

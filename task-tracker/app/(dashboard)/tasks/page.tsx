@@ -2,18 +2,14 @@ import { connectToDatabase } from "@/lib/mongodb";
 import Task from "@/models/Task";
 import TaskList from "./TaskList";
 import { getCurrentUser } from "@/lib/getCurrentUser";
+import { serializeDocuments } from "@/lib/serialize";
 
 export default async function TasksPage() {
     await connectToDatabase();
     const session: any = await getCurrentUser();
-    const tasks = await Task.find({userId: session?.id}).lean();
+    const tasks = await Task.find({userId: session?.id});
 
-    const serializedTasks = tasks.map(task => ({
-        ...task,
-        _id: task._id.toString(),
-        createdAt: task.createdAt.toISOString(),
-        updatedAt: task.updatedAt.toISOString(),
-    }));
+    const serializedTasks = serializeDocuments(tasks);
 
     return (
         <div>
