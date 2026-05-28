@@ -2,4 +2,4 @@
 
 Simple task management application to track the daily task status.
 
-Deployed version - https://task-tracker-ecru-beta-45.vercel.app/
+Deployed version - https://tf-45.vercel.app/
